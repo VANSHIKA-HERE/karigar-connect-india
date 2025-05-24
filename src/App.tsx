@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -14,6 +13,7 @@ import WorkerProfile from "./components/WorkerProfile";
 import BookingScreen from "./components/BookingScreen";
 import TrackingScreen from "./components/TrackingScreen";
 import NotFound from "./pages/NotFound";
+import WorkerDashboard from "./components/WorkerDashboard";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +29,7 @@ const App = () => (
           <Route path="/user-type" element={<UserTypeSelection />} />
           <Route path="/auth" element={<AuthScreen />} />
           <Route path="/services" element={<ServiceCategories />} />
+          <Route path="/worker-dashboard" element={<WorkerDashboard />} />
           <Route path="/map/:category" element={<WorkerMap />} />
           <Route path="/worker/:id" element={<WorkerProfile />} />
           <Route path="/booking/:workerId" element={<BookingScreen />} />
