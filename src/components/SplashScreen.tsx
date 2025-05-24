@@ -6,8 +6,15 @@ const SplashScreen = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Add a small delay to ensure the router context is fully established
     const timer = setTimeout(() => {
-      navigate('/language');
+      try {
+        navigate('/language');
+      } catch (error) {
+        console.error('Navigation error:', error);
+        // Fallback: use window.location if navigate fails
+        window.location.href = '/language';
+      }
     }, 3000);
 
     return () => clearTimeout(timer);
