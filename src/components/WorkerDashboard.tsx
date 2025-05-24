@@ -1,16 +1,18 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { toast } from '@/hooks/use-toast';
 import { Bell, Settings, Star, Clock, MapPin, Phone, Check, X } from 'lucide-react';
+import BookingNotification from './BookingNotification';
+import { useNotifications } from '../contexts/NotificationContext';
 
 const WorkerDashboard = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('requests');
   const [isOnline, setIsOnline] = useState(true);
+  const { notifications, addNotification, removeNotification } = useNotifications();
 
   const jobRequests = [
     {
@@ -49,7 +51,35 @@ const WorkerDashboard = () => {
     }
   ];
 
+  // Simulate receiving new booking notifications
+  useEffect(() => {
+    if (!isOnline) return;
+
+    const simulateNewBooking = () => {
+      const newBooking = {
+        id: Math.random().toString(36).substr(2, 9),
+        customerName: 'New Customer',
+        service: 'Electrician',
+        location: 'Delhi NCR',
+        price: Math.floor(Math.random() * 500) + 300,
+        timeAgo: 'Just now',
+        urgency: Math.random() > 0.7 ? 'urgent' : 'normal' as 'urgent' | 'normal'
+      };
+      
+      addNotification(newBooking);
+      
+      // Play notification sound (in a real app, you'd use actual sound)
+      console.log('🔔 New booking notification received!');
+    };
+
+    // Simulate notifications every 30 seconds when online
+    const interval = setInterval(simulateNewBooking, 30000);
+    
+    return () => clearInterval(interval);
+  }, [isOnline, addNotification]);
+
   const handleAcceptJob = (jobId: string) => {
+    removeNotification(jobId);
     toast({
       title: "Job Accepted!",
       description: "Customer has been notified. Start heading to location.",
@@ -57,10 +87,19 @@ const WorkerDashboard = () => {
   };
 
   const handleRejectJob = (jobId: string) => {
+    removeNotification(jobId);
     toast({
       title: "Job Declined",
       description: "Request has been declined.",
     });
+  };
+
+  const handleNotificationAccept = (notificationId: string) => {
+    handleAcceptJob(notificationId);
+  };
+
+  const handleNotificationDismiss = (notificationId: string) => {
+    removeNotification(notificationId);
   };
 
   const toggleOnlineStatus = () => {
@@ -73,6 +112,16 @@ const WorkerDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Notifications */}
+      {notifications.map((notification) => (
+        <BookingNotification
+          key={notification.id}
+          notification={notification}
+          onAccept={handleNotificationAccept}
+          onDismiss={handleNotificationDismiss}
+        />
+      ))}
+
       {/* Header */}
       <div className="bg-amber-600 text-white p-4">
         <div className="flex items-center justify-between">
@@ -89,7 +138,14 @@ const WorkerDashboard = () => {
             >
               {isOnline ? "Online" : "Offline"}
             </Button>
-            <Bell className="w-6 h-6" />
+            <div className="relative">
+              <Bell className="w-6 h-6" />
+              {notifications.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {notifications.length}
+                </span>
+              )}
+            </div>
             <Settings className="w-6 h-6" onClick={() => navigate('/worker-profile')} />
           </div>
         </div>
