@@ -88,19 +88,7 @@ const WorkerProfile = () => {
           </div>
         </Card>
 
-        {/* Pricing & Availability */}
-        <Card className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="font-semibold text-gray-800">Pricing</h3>
-              <p className="text-2xl font-bold text-amber-600">{worker.price}</p>
-            </div>
-            <div className="text-right">
-              <h3 className="font-semibold text-gray-800">Status</h3>
-              <p className="text-green-600 font-medium">{worker.availability}</p>
-            </div>
-          </div>
-        </Card>
+        {/* REMOVED Pricing & Availability */}
 
         {/* Skills */}
         <Card className="p-4">
@@ -158,3 +146,4 @@ const WorkerProfile = () => {
 };
 
 export default WorkerProfile;
+
