@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -321,15 +320,6 @@ const WorkerDashboard = () => {
             </Card>
           </div>
         )}
-      </div>
-
-      <div className="flex justify-end mb-6">
-        <Button
-          onClick={() => navigate("/worker-login")}
-          className="bg-amber-600 hover:bg-amber-700 text-white rounded-lg px-4 py-2"
-        >
-          Worker Login
-        </Button>
       </div>
     </div>
   );

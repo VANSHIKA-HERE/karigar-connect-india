@@ -15,7 +15,6 @@ import BookingScreen from "./components/BookingScreen";
 import TrackingScreen from "./components/TrackingScreen";
 import NotFound from "./pages/NotFound";
 import WorkerDashboard from "./components/WorkerDashboard";
-import WorkerLogin from "./components/WorkerLogin";
 
 const queryClient = new QueryClient();
 
@@ -33,7 +32,6 @@ const App = () => (
             <Route path="/auth" element={<AuthScreen />} />
             <Route path="/services" element={<ServiceCategories />} />
             <Route path="/worker-dashboard" element={<WorkerDashboard />} />
-            <Route path="/worker-login" element={<WorkerLogin />} />
             <Route path="/map/:category" element={<WorkerMap />} />
             <Route path="/worker/:id" element={<WorkerProfile />} />
             <Route path="/booking/:workerId" element={<BookingScreen />} />
