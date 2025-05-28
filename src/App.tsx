@@ -15,6 +15,7 @@ import BookingScreen from "./components/BookingScreen";
 import TrackingScreen from "./components/TrackingScreen";
 import NotFound from "./pages/NotFound";
 import WorkerDashboard from "./components/WorkerDashboard";
+import AadhaarVerification from "./components/AadhaarVerification";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ const App = () => (
             <Route path="/worker/:id" element={<WorkerProfile />} />
             <Route path="/booking/:workerId" element={<BookingScreen />} />
             <Route path="/tracking/:bookingId" element={<TrackingScreen />} />
+            <Route path="/aadhaar-verification" element={<AadhaarVerification />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

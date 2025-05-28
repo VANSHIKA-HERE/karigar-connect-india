@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -50,7 +49,14 @@ const AuthScreen = () => {
       title: "Welcome to Karigar!",
       description: "Account verified successfully",
     });
-    navigate('/services');
+
+    // Decide the next page based on userType
+    const userType = localStorage.getItem('userType');
+    if (userType === 'worker') {
+      navigate('/aadhaar-verification');
+    } else {
+      navigate('/services');
+    }
   };
 
   return (
