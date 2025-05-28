@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { toast } from '@/hooks/use-toast';
 import { Bell, Settings, Star, Clock, MapPin, Phone, Check, X } from 'lucide-react';
@@ -111,7 +111,7 @@ const WorkerDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div>
       {/* Notifications */}
       {notifications.map((notification) => (
         <BookingNotification
@@ -320,6 +320,15 @@ const WorkerDashboard = () => {
             </Card>
           </div>
         )}
+      </div>
+
+      <div className="flex justify-end mb-6">
+        <Button
+          onClick={() => navigate("/worker-login")}
+          className="bg-amber-600 hover:bg-amber-700 text-white rounded-lg px-4 py-2"
+        >
+          Worker Login
+        </Button>
       </div>
     </div>
   );
