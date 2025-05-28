@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -17,6 +18,12 @@ const UserTypeSelection = () => {
         navigate('/auth');
       }
     }
+  };
+
+  const handleWorkerRegister = () => {
+    // Set worker userType in localStorage and go to /auth (registration)
+    localStorage.setItem('userType', 'worker');
+    navigate('/auth');
   };
 
   return (
@@ -68,9 +75,19 @@ const UserTypeSelection = () => {
         >
           Continue / जारी रखें
         </Button>
+
+        {userType === 'worker' && (
+          <Button
+            onClick={handleWorkerRegister}
+            className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white py-4 text-base font-semibold rounded-xl"
+          >
+            Register as Worker / कार्यकर्ता के रूप में पंजीकरण करें
+          </Button>
+        )}
       </div>
     </div>
   );
 };
 
 export default UserTypeSelection;
+
