@@ -25,6 +25,7 @@ const BookingScreen = () => {
     serviceCharge: 50
   };
 
+  const bookingFee = 49;
   const totalAmount = (worker.price * parseInt(bookingData.estimatedHours)) + worker.serviceCharge;
 
   const handleBooking = () => {
@@ -37,11 +38,11 @@ const BookingScreen = () => {
       return;
     }
 
-    // Simulate booking
+    // Simulate booking fee payment
     const bookingId = Math.random().toString(36).substr(2, 9);
     toast({
-      title: "Booking Confirmed!",
-      description: "Worker will contact you shortly",
+      title: "Booking Fee Paid!",
+      description: "Proceeding to worker assignment",
     });
     
     navigate(`/tracking/${bookingId}`);
@@ -154,9 +155,23 @@ const BookingScreen = () => {
           </div>
         </Card>
 
+        {/* Booking Fee Card */}
+        <Card className="p-4 bg-blue-50 border-blue-200">
+          <h3 className="font-semibold text-blue-800 mb-3">Booking Fee</h3>
+          <div className="space-y-2">
+            <div className="flex justify-between items-center">
+              <span className="text-blue-700">Pay to confirm booking</span>
+              <span className="font-semibold text-blue-800">₹{bookingFee}</span>
+            </div>
+            <p className="text-xs text-blue-600">
+              This fee secures your booking and will be adjusted in final payment
+            </p>
+          </div>
+        </Card>
+
         {/* Pricing Breakdown */}
         <Card className="p-4">
-          <h3 className="font-semibold text-gray-800 mb-3">Price Breakdown</h3>
+          <h3 className="font-semibold text-gray-800 mb-3">Estimated Total Cost</h3>
           <div className="space-y-2">
             <div className="flex justify-between">
               <span>Service ({bookingData.estimatedHours} hours)</span>
@@ -167,9 +182,12 @@ const BookingScreen = () => {
               <span>₹{worker.serviceCharge}</span>
             </div>
             <div className="border-t pt-2 flex justify-between font-semibold text-lg">
-              <span>Total</span>
+              <span>Total (after service)</span>
               <span className="text-amber-600">₹{totalAmount}</span>
             </div>
+            <p className="text-xs text-gray-500">
+              Full payment will be collected after work completion
+            </p>
           </div>
         </Card>
 
@@ -177,12 +195,12 @@ const BookingScreen = () => {
         <div className="pb-6">
           <Button
             onClick={handleBooking}
-            className="w-full bg-amber-600 hover:bg-amber-700 text-white py-4 text-lg font-semibold rounded-xl"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 text-lg font-semibold rounded-xl"
           >
-            Confirm Booking • ₹{totalAmount}
+            Pay Booking Fee • ₹{bookingFee}
           </Button>
           <p className="text-xs text-gray-500 text-center mt-2">
-            Payment will be processed after work completion
+            Secure your booking with advance payment
           </p>
         </div>
       </div>
