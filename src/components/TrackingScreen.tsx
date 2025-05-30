@@ -1,10 +1,9 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
-import { Phone, MessageCircle, MapIcon, Star, Check, Navigation } from 'lucide-react';
+import { Phone, MessageCircle, MapIcon, Star, Check, Navigation, Route } from 'lucide-react';
 
 const TrackingScreen = () => {
   const { bookingId } = useParams();
@@ -12,6 +11,7 @@ const TrackingScreen = () => {
   const [workStatus, setWorkStatus] = useState('accepted');
   const [showRating, setShowRating] = useState(false);
   const [rating, setRating] = useState(0);
+  const [isNavigating, setIsNavigating] = useState(false);
   const mapContainer = useRef<HTMLDivElement>(null);
 
   const booking = {
@@ -91,8 +91,36 @@ const TrackingScreen = () => {
 
   const handleStartNavigation = () => {
     const { lat, lng } = booking.customer.location;
-    const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=driving`;
     window.open(url, '_blank');
+    setIsNavigating(true);
+    toast({
+      title: "Navigation Started",
+      description: "Google Maps opened for turn-by-turn directions",
+    });
+  };
+
+  const handleGetDirections = () => {
+    const { lat, lng } = booking.customer.location;
+    const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=driving`;
+    const appleMapsUrl = `http://maps.apple.com/?daddr=${lat},${lng}&dirflg=d`;
+    
+    // Detect if user is on iOS
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    
+    if (isIOS) {
+      // Try Apple Maps first on iOS, fallback to Google Maps
+      window.open(appleMapsUrl, '_blank');
+    } else {
+      // Use Google Maps on Android and other platforms
+      window.open(googleMapsUrl, '_blank');
+    }
+    
+    setIsNavigating(true);
+    toast({
+      title: "Directions Opened",
+      description: "Navigation app opened with route to customer",
+    });
   };
 
   const updateStatus = (newStatus: string) => {
@@ -149,6 +177,45 @@ const TrackingScreen = () => {
           </div>
         </Card>
 
+        {/* Navigation Card */}
+        {workStatus !== 'completed' && (
+          <Card className="p-4 bg-blue-50 border-blue-200">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="font-semibold text-blue-800">Navigation</h3>
+              {isNavigating && (
+                <span className="text-xs text-blue-600 bg-blue-100 px-2 py-1 rounded">
+                  Navigation Active
+                </span>
+              )}
+            </div>
+            <div className="space-y-3">
+              <div className="flex items-center text-sm text-blue-700">
+                <MapIcon className="w-4 h-4 mr-2" />
+                Get directions to customer location
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <Button
+                  onClick={handleGetDirections}
+                  size="sm"
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                >
+                  <Route className="w-4 h-4 mr-1" />
+                  Directions
+                </Button>
+                <Button
+                  onClick={handleStartNavigation}
+                  size="sm"
+                  variant="outline"
+                  className="border-blue-600 text-blue-600 hover:bg-blue-50"
+                >
+                  <Navigation className="w-4 h-4 mr-1" />
+                  Navigate
+                </Button>
+              </div>
+            </div>
+          </Card>
+        )}
+
         {/* Customer Location Map */}
         {workStatus !== 'completed' && (
           <Card className="p-4">
@@ -157,7 +224,7 @@ const TrackingScreen = () => {
               <Button
                 onClick={handleStartNavigation}
                 size="sm"
-                className="bg-blue-600 hover:bg-blue-700 text-white"
+                className="bg-green-600 hover:bg-green-700 text-white"
               >
                 <Navigation className="w-4 h-4 mr-1" />
                 Navigate
