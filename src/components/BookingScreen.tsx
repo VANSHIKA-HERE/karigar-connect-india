@@ -20,12 +20,11 @@ const BookingScreen = () => {
 
   const worker = {
     name: 'राजेश कुमार',
-    price: 300,
-    platformFee: 50
+    price: 300
   };
 
   const bookingFee = 49;
-  const totalAmount = (worker.price * parseInt(bookingData.estimatedHours)) + worker.platformFee;
+  const totalAmount = worker.price * parseInt(bookingData.estimatedHours);
 
   const handleBooking = () => {
     if (!bookingData.date || !bookingData.time || !bookingData.address) {
@@ -175,10 +174,6 @@ const BookingScreen = () => {
             <div className="flex justify-between">
               <span>Service ({bookingData.estimatedHours} hours)</span>
               <span>₹{worker.price * parseInt(bookingData.estimatedHours)}</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Platform fee</span>
-              <span>₹{worker.platformFee}</span>
             </div>
             <div className="border-t pt-2 flex justify-between font-semibold text-lg">
               <span>Total (after service)</span>
