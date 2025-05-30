@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
@@ -22,11 +21,11 @@ const BookingScreen = () => {
   const worker = {
     name: 'राजेश कुमार',
     price: 300,
-    serviceCharge: 50
+    platformFee: 50
   };
 
   const bookingFee = 49;
-  const totalAmount = (worker.price * parseInt(bookingData.estimatedHours)) + worker.serviceCharge;
+  const totalAmount = (worker.price * parseInt(bookingData.estimatedHours)) + worker.platformFee;
 
   const handleBooking = () => {
     if (!bookingData.date || !bookingData.time || !bookingData.address) {
@@ -179,7 +178,7 @@ const BookingScreen = () => {
             </div>
             <div className="flex justify-between">
               <span>Platform fee</span>
-              <span>₹{worker.serviceCharge}</span>
+              <span>₹{worker.platformFee}</span>
             </div>
             <div className="border-t pt-2 flex justify-between font-semibold text-lg">
               <span>Total (after service)</span>
